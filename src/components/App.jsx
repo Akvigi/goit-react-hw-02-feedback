@@ -1,18 +1,25 @@
 import React, {Component} from "react";
-import Rating from "./Rating/Rating";
+import FeedbackOptions from "./Statistics/Feedbackoptions/FeedbackOptions";
+import Rating from "./Statistics/Rating/Rating";
 import { PageContainer, ContentContainer } from "./styled-comp/styled"
+import Section from "./Section/Section";
 
+
+
+// let array = [{ name: "Kar", id: nanoid() }, { name: "Kar", id: nanoid() }, { name: "Kar", id: nanoid() }]
 class App extends Component {
     state = {
         good: 0,
         neutral: 0,
         bad: 0,
+        total: 0,
     }
+
     onFeedback = (e) => {
         const toChange = e.target.textContent;
-        this.setState(props => ({
-            total: props.total + 1,
-            [toChange]: props[toChange] + 1,
+        this.setState(prevState => ({
+            total: prevState.total + 1,
+            [toChange]: prevState[toChange] + 1,
         }))
     }
 
@@ -26,21 +33,20 @@ class App extends Component {
         return (
             <PageContainer>
                 <ContentContainer>
-                    <Rating
-                        good={0 }
-                        neutral={0 }
-                        bad={0 }
-                        total={0 }
-                        positivePercentage={0 } />
+                    <Section title="Please leave feedback">
+                        <FeedbackOptions toDo={this.onFeedback}/>
+                        <Rating
+                            {...this.state}
+                            positivePercentage= {this.countPositivePercent()}
+                            />
+                    </Section>
                 </ContentContainer>
             </PageContainer>  
         );
     }
 }
 
-export default App;
-// export const App = () => {
-    
-// };
 
+
+export default App;
 
